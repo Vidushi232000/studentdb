@@ -5,7 +5,7 @@ using studentdb.Model;
 
 namespace studentdb.Data
 {
-    public class StudentContext : DbContext // initializing the dbcontext class
+    public class StudentContext : DbContext 
 
     {
         public DbSet<Student> Students { get; set; }
