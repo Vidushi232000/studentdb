@@ -1,5 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Components;
+
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using studentdb.Data;
@@ -7,7 +7,7 @@ using studentdb.Model;
 
 namespace studentdb.Controllers
 {
-    [Microsoft.AspNetCore.Mvc.Route("api/[Controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class StudentController : ControllerBase
     {
@@ -35,11 +35,11 @@ namespace studentdb.Controllers
             return Ok(student);
         }
         [HttpPost]
-        public async Task<ActionResult> PostStudent(Student student) 
+        public async Task<IActionResult> PostStudent(Student student)
         { 
             _dbContext.Students.Add(student);
             await _dbContext.SaveChangesAsync(); 
-            return CreatedAtAction("GetStudent", new { id = student.Id }, student); 
+            return CreatedAtAction(nameof(GetStudent), new { id = student.Id }, student); 
         }
 
         [HttpPut("{id}")]
@@ -49,9 +49,13 @@ namespace studentdb.Controllers
             if (existingStudent == null)
             {
                 return NotFound();
-}
-                await _dbContext.SaveChangesAsync();
-            return Ok();
+            }
+            existingStudent.FirstName = student.FirstName; 
+            existingStudent.LastName = student.LastName;
+            existingStudent.Age = student.Age;
+            existingStudent.BloodGroup = student.BloodGroup;
+            await _dbContext.SaveChangesAsync();
+            return Ok(existingStudent);
         }
 
             [HttpDelete("{id}")] 
