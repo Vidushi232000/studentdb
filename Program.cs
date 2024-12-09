@@ -23,4 +23,6 @@ using studentdb.Data;
 
             app.MapControllers();
 
+            app.Run();
+
         
